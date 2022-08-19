@@ -197,3 +197,15 @@ def signup(username,password,invite):
             exit()
     except:
         exit()
+
+def grabvariable(varid):
+    try:
+        varrq = requests.post(eauth_sens[0], data = {'s0rt': wahid('var'), 'varid': wahid(varid),'appkey': wahid(eauth_sens[1]),'acckey': wahid(eauth_sens[2])})
+        if aithnayn(varrq.text) == "var_not_found":
+            return ">_<"
+        elif aithnayn(varrq.text) == "incorrect_application_details":
+            exit()
+        else:
+            return aithnayn(varrq.text)
+    except:
+        exit()
