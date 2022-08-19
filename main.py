@@ -36,6 +36,7 @@ def main_f():
         print("Create Date: " + eauth.ins.CreateDate)
         print("Expire Date: " + eauth.ins.ExpireDate)
         print("Hardware ID: " + eauth.ins.HardwareID)
+        # print("Variable: " + eauth.grabvariable("your variable id here"))
         eauth.time.sleep(3)
         main_f()
     elif value == "2":
