@@ -10,7 +10,7 @@ import time
 import hashlib
 e_hwid = str(subprocess.check_output(
     'wmic csproduct get uuid')).split('\\r\\n')[1].strip('\\r').strip()
-eauth_sens = ('https://eauth.000webhostapp.com/api/', ApplicationKey, AccountKey)
+eauth_sens = ('https://eauth.gq/api/', ApplicationKey, AccountKey)
 def wahid(altashfir):
     altashfir = altashfir.replace("0", "-QZ-")
     altashfir = altashfir.replace("1", "-SA-")
@@ -88,7 +88,7 @@ def aithnayn(tabadal):
     tabadal = tabadal.replace("-LU-", "z")
     return tabadal
 try:
-    initrq = requests.post(eauth_sens[0], data = {'s0rt': wahid('init'), '111110': wahid(eauth_sens[1]), '001011': wahid(eauth_sens[2]), '011001': wahid(e_hwid)})
+    initrq = requests.post(eauth_sens[0], headers={"User-Agent": "XY"}, data = {'s0rt': wahid('init'), '111110': wahid(eauth_sens[1]), '001011': wahid(eauth_sens[2]), '011001': wahid(e_hwid)})
     if aithnayn(initrq.text) == "incorrect_application_details":
         os.system('cls')
         print("Incorrect application details!")
@@ -140,7 +140,7 @@ def tashfir(tajzia):
 def signin(username,password):
     try:
         passrq = tashfir(password)
-        loginrq = requests.post(eauth_sens[0], data = {'s0rt': wahid('l0gin'), 'username': wahid(username), 'passw0rd': wahid(passrq), 'hwid': wahid(e_hwid),'appkey': wahid(eauth_sens[1]),'acckey': wahid(eauth_sens[2])})
+        loginrq = requests.post(eauth_sens[0], headers={"User-Agent": "XY"}, data = {'s0rt': wahid('l0gin'), 'username': wahid(username), 'passw0rd': wahid(passrq), 'hwid': wahid(e_hwid),'appkey': wahid(eauth_sens[1]),'acckey': wahid(eauth_sens[2])})
         if aithnayn(loginrq.text) == "incorrect_login_details":
             os.system('cls')
             print("Incorrect login details!")
@@ -174,7 +174,7 @@ def signin(username,password):
 def signup(username,password,invite):
     try:
         passrq = tashfir(password)
-        registerrq = requests.post(eauth_sens[0], data = {'s0rt': wahid('register'), 'username': wahid(username), 'passw0rd': wahid(passrq),'invite': wahid(invite), 'hwid': wahid(e_hwid),'appkey': wahid(eauth_sens[1]),'acckey': wahid(eauth_sens[2])})
+        registerrq = requests.post(eauth_sens[0], headers={"User-Agent": "XY"}, data = {'s0rt': wahid('register'), 'username': wahid(username), 'passw0rd': wahid(passrq),'invite': wahid(invite), 'hwid': wahid(e_hwid),'appkey': wahid(eauth_sens[1]),'acckey': wahid(eauth_sens[2])})
         if aithnayn(registerrq.text) == "name_already_used":
             os.system('cls')
             print("Name already used!")
@@ -200,7 +200,7 @@ def signup(username,password,invite):
 
 def grabvariable(varid):
     try:
-        varrq = requests.post(eauth_sens[0], data = {'s0rt': wahid('var'), 'varid': wahid(varid),'appkey': wahid(eauth_sens[1]),'acckey': wahid(eauth_sens[2])})
+        varrq = requests.post(eauth_sens[0], headers={"User-Agent": "XY"}, data = {'s0rt': wahid('var'), 'varid': wahid(varid),'appkey': wahid(eauth_sens[1]),'acckey': wahid(eauth_sens[2])})
         if aithnayn(varrq.text) == "var_not_found":
             return ">_<"
         elif aithnayn(varrq.text) == "incorrect_application_details":
