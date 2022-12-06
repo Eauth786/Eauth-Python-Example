@@ -10,7 +10,7 @@ import time
 import hashlib
 e_hwid = str(subprocess.check_output(
     'wmic csproduct get uuid')).split('\\r\\n')[1].strip('\\r').strip()
-eauth_sens = ('https://eauth.gq/api/', ApplicationKey, AccountKey)
+eauth_sens = ('https://www.eauth.gq/api/', ApplicationKey, AccountKey)
 def wahid(altashfir):
     altashfir = altashfir.replace("0", "-QZ-")
     altashfir = altashfir.replace("1", "-SA-")
