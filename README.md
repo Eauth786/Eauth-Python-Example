@@ -15,7 +15,7 @@ Configuration
 Navigate to `eauth.py`, and fill these lines of code:
 
 ```python
-/* Required configuration */
+# Required configuration
 account_key = "" # Your account key goes here
 application_key = "" # Your application key goes here
 application_ID = "" # Your application ID goes here
