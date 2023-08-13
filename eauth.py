@@ -1,211 +1,253 @@
-ApplicationKey = "" #required
-AccountKey = "" #required
-
-import os
-import subprocess
 import requests
-import os
-from os import system
-import time
+import json
+import platform
 import hashlib
-e_hwid = str(subprocess.check_output(
-    'wmic csproduct get uuid')).split('\\r\\n')[1].strip('\\r').strip()
-eauth_sens = ('https://eauth.us.to/api/', ApplicationKey, AccountKey)
-def wahid(altashfir):
-    altashfir = altashfir.replace("0", "-QZ-")
-    altashfir = altashfir.replace("1", "-SA-")
-    altashfir = altashfir.replace("2", "-IF-")
-    altashfir = altashfir.replace("3", "DE-")
-    altashfir = altashfir.replace("4", "-EE-")
-    altashfir = altashfir.replace("5", "-JJ-")
-    altashfir = altashfir.replace("6", "-GG-")
-    altashfir = altashfir.replace("7", "MP-")
-    altashfir = altashfir.replace("8", "-WI-")
-    altashfir = altashfir.replace("9", "-ZF-")
-    altashfir = altashfir.replace("a", "-XC-")
-    altashfir = altashfir.replace("b", "-YU-")
-    altashfir = altashfir.replace("c", "-OL-")
-    altashfir = altashfir.replace("d", "MV-")
-    altashfir = altashfir.replace("e", "-RS-")
-    altashfir = altashfir.replace("f", "-EV-")
-    altashfir = altashfir.replace("g", "-WZ-")
-    altashfir = altashfir.replace("h", "DP-")
-    altashfir = altashfir.replace("i", "-IJ-")
-    altashfir = altashfir.replace("j", "-KN-")
-    altashfir = altashfir.replace("k", "-CA-")
-    altashfir = altashfir.replace("l", "-TW-")
-    altashfir = altashfir.replace("m", "-BI-")
-    altashfir = altashfir.replace("n", "-JH-")
-    altashfir = altashfir.replace("o", "-MW-")
-    altashfir = altashfir.replace("p", "-IS-")
-    altashfir = altashfir.replace("q", "-LA-")
-    altashfir = altashfir.replace("r", "-ME-")
-    altashfir = altashfir.replace("s", "-EP-")
-    altashfir = altashfir.replace("t", "-ON-")
-    altashfir = altashfir.replace("u", "-WK-")
-    altashfir = altashfir.replace("v", "-NB-")
-    altashfir = altashfir.replace("w", "-BA-")
-    altashfir = altashfir.replace("x", "-RE-")
-    altashfir = altashfir.replace("y", "-IN-")
-    altashfir = altashfir.replace("z", "-LU-")
-    return altashfir
-def aithnayn(tabadal):
-    tabadal = tabadal.replace("-QZ-", "0")
-    tabadal = tabadal.replace("-SA-", "1")
-    tabadal = tabadal.replace("-IF-", "2")
-    tabadal = tabadal.replace("DE-", "3")
-    tabadal = tabadal.replace("-EE-", "4")
-    tabadal = tabadal.replace("-JJ-", "5")
-    tabadal = tabadal.replace("-GG-", "6")
-    tabadal = tabadal.replace("MP-", "7")
-    tabadal = tabadal.replace("-WI-", "8")
-    tabadal = tabadal.replace("-ZF-", "9")
-    tabadal = tabadal.replace("-XC-", "a")
-    tabadal = tabadal.replace("-YU-", "b")
-    tabadal = tabadal.replace("-OL-", "c")
-    tabadal = tabadal.replace("MV-", "d")
-    tabadal = tabadal.replace("-RS-", "e")
-    tabadal = tabadal.replace("-EV-", "f")
-    tabadal = tabadal.replace("-WZ-", "g")
-    tabadal = tabadal.replace("DP-", "h")
-    tabadal = tabadal.replace("-IJ-", "i")
-    tabadal = tabadal.replace("-KN-", "j")
-    tabadal = tabadal.replace("-CA-", "k")
-    tabadal = tabadal.replace("-TW-", "l")
-    tabadal = tabadal.replace("-BI-", "m")
-    tabadal = tabadal.replace("-JH-", "n")
-    tabadal = tabadal.replace("-MW-", "o")
-    tabadal = tabadal.replace("-IS-", "p")
-    tabadal = tabadal.replace("-LA-", "q")
-    tabadal = tabadal.replace("-ME-", "r")
-    tabadal = tabadal.replace("-EP-", "s")
-    tabadal = tabadal.replace("-ON-", "t")
-    tabadal = tabadal.replace("-WK-", "u")
-    tabadal = tabadal.replace("-NB-", "v")
-    tabadal = tabadal.replace("-BA-", "w")
-    tabadal = tabadal.replace("-RE-", "x")
-    tabadal = tabadal.replace("-IN-", "y")
-    tabadal = tabadal.replace("-LU-", "z")
-    return tabadal
-try:
-    initrq = requests.post(eauth_sens[0], headers={"User-Agent": "XY"}, data = {'s0rt': wahid('init'), '111110': wahid(eauth_sens[1]), '001011': wahid(eauth_sens[2]), '011001': wahid(e_hwid)})
-    if aithnayn(initrq.text) == "incorrect_application_details":
-        os.system('cls')
-        print("Incorrect application details!")
-        time.sleep(1)
-        exit()
-    elif aithnayn(initrq.text) == "banned_user":
-        exit()
-    elif aithnayn(initrq.text) == "down":
-        os.system('cls')
-        print("Eauth is down at the moment, come back later!")
-        time.sleep(1)
-        exit()
-    elif initrq.text == "":
-        os.system('cls')
-        print("Oops, something went wrong!")
-        time.sleep(1)
-        exit()
+import os
+import datetime
+import subprocess
+import webbrowser
+
+# Required configuration
+account_key = "" # Your account key goes here
+application_key = "" # Your application key goes here
+application_ID = "" # Your application ID goes here
+application_version = "1.0" # Your application version goes here
+
+# Advanced configuration
+invalid_account_key_message = "Invalid account key!"
+invalid_application_key_message = "Invalid application key!"
+invalid_request_message = "Invalid request!"
+outdated_version_message = "Outdated version, please upgrade!"
+busy_sessions_message = "Please try again later!"
+unavailable_session_message = "Invalid session. Please re-launch the app!"
+used_session_message = "Why did the computer go to therapy? Because it had a case of 'Request Repeatitis' and couldn't stop asking for the same thing over and over again!"
+overcrowded_session_message = "Session limit exceeded. Please re-launch the app!"
+expired_session_message = "Your session has timed out. Please re-launch the app!"
+invalid_user_message = "Incorrect login credentials!"
+banned_hwid_message = "Access denied!"
+incorrect_hwid_message = "Hardware ID mismatch. Please try again with the correct device!"
+expired_user_message = "Your subscription has ended. Please renew to continue using our service!"
+used_name_message = "Username already taken. Please choose a different username!"
+invalid_key_message = "Invalid key. Please enter a valid key!"
+upgrade_your_eauth_message = "Upgrade your Eauth plan to exceed the limits!"
+
+# Dynamic configuration
+init = False
+login = False
+register = False
+
+session_id = ""
+app_status = ""
+app_name = ""
+logged_message = ""
+registered_message = ""
+error_message = ""
+
+rank = ""
+register_date = ""
+expire_date = ""
+hwid = ""
+user_hwid = str(subprocess.check_output('wmic csproduct get uuid')).split('\\r\\n')[1].strip('\\r').strip()
+
+def compute_sha512(input_string):
+    sha512 = hashlib.sha512()
+    sha512.update(input_string.encode('utf-8'))
+    return sha512.hexdigest()
+
+def generate_auth_token(message, app_id):
+    timestamp = str(int(datetime.datetime.utcnow().timestamp()))[:-5]
+    auth_token = timestamp + message + app_id
+    return compute_sha512(auth_token)
+
+# Pause command
+def run_pause_command():
+    if platform.system() == 'Windows':
+        os.system('pause')
     else:
-        responser = initrq.json()
-        for app_json_encode in responser:
-            Status = aithnayn(app_json_encode[aithnayn('STATUS')])
-            ApplicationName = aithnayn(app_json_encode[aithnayn('APPNAME')])
-            Loggedmessage =aithnayn( app_json_encode[aithnayn('LOGGED')])
-            Registeredmessage = aithnayn(app_json_encode[aithnayn('REGISTERED')])
-            Pausedmessage = aithnayn(app_json_encode[aithnayn('PAUSED')])
-            system("title " + ApplicationName)
-            if Status == "0":
-                os.system('cls')
-                print(Pausedmessage)
-                time.sleep(2)
-                exit()
-except:
-    exit()
+        input('Press Enter to continue...')
 
-class User_Info:
-    Username = ""
-    Rank = ""
-    CreateDate = ""
-    ExpireDate = ""
-    HardwareID = e_hwid
+# Send post request to Eauth
+def run_request(params):
+    response = requests.post('https://eauth.us.to/api/1.1/',
+                             headers={"User-Agent": 'e_a_u_t_h'},
+                             data=params)
+                                     
+    # JSON string
+    json_string = response.text
 
-ins = User_Info()
+    # Parse the JSON string into a dictionary
+    data = json.loads(json_string)
 
-def tashfir(tajzia):
-    e_c = \
-        hashlib.sha512(tajzia.encode()).hexdigest()
-    return e_c
+    # Get the values from the dictionary using the keys
+    message = data['message']
+    
+    # Read signature
+    if (message == "init_success" or message == "login_success" or message == "register_success" or message == "var_grab_success"):
+        auth_header = response.headers.get('Signature')
+        if (auth_header != generate_auth_token(response.text, application_ID)):
+            exit(0)
+   
+    return response.text
 
-def signin(username,password):
-    try:
-        passrq = tashfir(password)
-        loginrq = requests.post(eauth_sens[0], headers={"User-Agent": "XY"}, data = {'s0rt': wahid('l0gin'), 'username': wahid(username), 'passw0rd': wahid(passrq), 'hwid': wahid(e_hwid),'appkey': wahid(eauth_sens[1]),'acckey': wahid(eauth_sens[2])})
-        if aithnayn(loginrq.text) == "incorrect_login_details":
-            os.system('cls')
-            print("Incorrect login details!")
-            time.sleep(2)
-            exit()
-        if aithnayn(loginrq.text) == "incorrect_user_details":
-            os.system('cls')
-            print("Incorrect login details!")
-            time.sleep(2)
-            exit()
-        elif aithnayn(loginrq.text) == "hwid_does_not_match":
-            os.system('cls')
-            print("Hwid doesn't match!")
-            time.sleep(2)
-            exit()
-        elif aithnayn(loginrq.text) == "subscription_has_expired":
-            os.system('cls')
-            print("Your subscription has expired!")
-            time.sleep(2)
-            exit()
-        else:
-            responser = loginrq.json()
-            for user_json_encode in responser:
-                ins.Username = aithnayn(user_json_encode[aithnayn('NAME')])
-                ins.Rank = aithnayn(user_json_encode[aithnayn('RANKUSER')])
-                ins.CreateDate = aithnayn(user_json_encode[aithnayn('CREATEDATE')])
-                ins.ExpireDate = aithnayn(user_json_encode[aithnayn('EXPIREDATE')])
-    except:
-        exit()
+def raise_error(error):
+    global error_message
+    error_message = error
 
-def signup(username,password,invite):
-    try:
-        passrq = tashfir(password)
-        registerrq = requests.post(eauth_sens[0], headers={"User-Agent": "XY"}, data = {'s0rt': wahid('register'), 'username': wahid(username), 'passw0rd': wahid(passrq),'invite': wahid(invite), 'hwid': wahid(e_hwid),'appkey': wahid(eauth_sens[1]),'acckey': wahid(eauth_sens[2])})
-        if aithnayn(registerrq.text) == "name_already_used":
-            os.system('cls')
-            print("Name already used!")
-            time.sleep(2)
-            exit()
-        if aithnayn(registerrq.text) == "incorrect_register_details":
-            os.system('cls')
-            print("Incorrect register details!")
-            time.sleep(2)
-            exit()
-        elif aithnayn(registerrq.text) == "key_not_found":
-            os.system('cls')
-            print("Key not found!")
-            time.sleep(2)
-            exit()
-        elif aithnayn(registerrq.text) == "maximum_users":
-            os.system('cls')
-            print("The Application reached maximum users, it's time for an upgrade!")
-            time.sleep(2)
-            exit()
-    except:
-        exit()
+# Eauth init request
+def init_request():
+    global init, session_id, app_status, app_name, logged_message, registered_message, error_message
 
-def grabvariable(varid):
-    try:
-        varrq = requests.post(eauth_sens[0], headers={"User-Agent": "XY"}, data = {'s0rt': wahid('var'), 'varid': wahid(varid),'appkey': wahid(eauth_sens[1]),'acckey': wahid(eauth_sens[2])})
-        if aithnayn(varrq.text) == "var_not_found":
-            return ">_<"
-        elif aithnayn(varrq.text) == "incorrect_application_details":
-            exit()
-        else:
-            return aithnayn(varrq.text)
-    except:
-        exit()
+    if (init):
+        return init
+    
+    data = {
+        'sort': 'init',
+        'appkey': application_key,
+        'acckey': account_key,
+        'version': application_version
+    }
+
+    # JSON string
+    json_string = run_request(data)
+
+    # Parse the JSON string into a dictionary
+    data = json.loads(json_string)
+
+    # Get the values from the dictionary using the keys
+    message = data['message']
+
+    # Check response
+    if (message == 'init_success'):
+        init = True
+        session_id = data['session_id']
+        app_status = data['app_status']
+        app_name = data['app_name']
+        logged_message = data['logged_message']
+        registered_message = data['registered_message']
+    elif (message == 'invalid_account_key'):
+        raise_error(invalid_account_key_message)
+    elif (message == 'invalid_application_key'):
+        raise_error(invalid_application_key_message)
+    elif (message == 'invalid_request'):
+        raise_error(invalid_request_message)
+    elif (message == 'version_outdated'):
+        download_link = data['download_link']
+        if (download_link != ''):
+            webbrowser.open(download_link)
+        raise_error(outdated_version_message)
+    elif (message == 'maximum_sessions_reached'):
+        raise_error(busy_sessions_message)
+    elif (message == 'init_paused'):
+        raise_error(data['paused_message'])
+
+    # Return
+    return init
+
+# Eauth login request
+def login_request(username, password):
+    global login, rank, register, expire_date, hwid, error_message
+
+    if (login):
+        return login
+    
+    data = {
+        'sort': 'login',
+        'sessionid': session_id,
+        'username': username,
+        'password': password,
+        'hwid': user_hwid,
+    }
+
+    # JSON string
+    json_string = run_request(data)
+
+    # Parse the JSON string into a dictionary
+    data = json.loads(json_string)
+
+    # Get the values from the dictionary using the keys
+    message = data['message']
+
+    # Check response
+    if (message == 'login_success'):
+        login = True
+        rank = data['rank']
+        register = data['register_date']
+        expire_date = data['expire_date']
+        hwid = data['hwid']
+    elif (message == 'invalid_account_key'):
+        raise_error(invalid_account_key_message)
+    elif (message == 'invalid_application_key'):
+        raise_error(invalid_application_key_message)
+    elif (message == 'invalid_request'):
+        raise_error(invalid_request_message)
+    elif (message == 'session_unavailable'):
+        raise_error(unavailable_session_message)
+    elif (message == 'session_already_used'):
+        raise_error(used_session_message)
+    elif (message == 'session_overcrowded'):
+        raise_error(overcrowded_session_message)
+    elif (message == 'session_expired'):
+        raise_error(expired_session_message)
+    elif (message == 'account_unavailable'):
+        raise_error(invalid_user_message)
+    elif (message == 'hwid_is_banned'):
+        raise_error(banned_hwid_message)
+    elif (message == 'hwid_incorrect'):
+        raise_error(incorrect_hwid_message)
+    elif (message == 'subscription_expired'):
+        raise_error(expired_session_message)
+
+    return login
+
+# Eauth register request
+def register_request(username, password, key):
+    global register, error_message
+
+    if (register):
+        return register
+    
+    data = {
+        'sort': 'register',
+        'sessionid': session_id,
+        'username': username,
+        'password': password,
+        'key': key,
+        'hwid': user_hwid,
+    }
+
+    # JSON string
+    json_string = run_request(data)
+
+    # Parse the JSON string into a dictionary
+    data = json.loads(json_string)
+
+    # Get the values from the dictionary using the keys
+    message = data['message']
+
+    # Check response
+    if (message == 'register_success'):
+        register = True
+    elif (message == 'invalid_account_key'):
+        raise_error(invalid_account_key_message)
+    elif (message == 'invalid_request'):
+        raise_error(invalid_request_message)
+    elif (message == 'session_unavailable'):
+        raise_error(unavailable_session_message)
+    elif (message == 'session_already_used'):
+        raise_error(used_session_message)
+    elif (message == 'session_overcrowded'):
+        raise_error(overcrowded_session_message)
+    elif (message == 'session_expired'):
+        raise_error(expired_session_message)
+    elif (message == 'account_unavailable'):
+        raise_error(invalid_user_message)
+    elif (message == 'name_already_used'):
+        raise_error(used_name_message)
+    elif (message == 'key_unavailable'):
+        raise_error(invalid_key_message)
+    elif (message == 'hwid_is_banned'):
+        raise_error(banned_hwid_message)
+    elif (message == 'maximum_users_reached'):
+        raise_error(upgrade_your_eauth_message)
+
+    return register
