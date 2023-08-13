@@ -1,16 +1,23 @@
 import os
-from traceback import print_tb
 import eauth
-import platform
 from datetime import datetime
+import platform
+import time
+
+# Init request
+if (not eauth.init_request()):
+    print(eauth.error_message)
+    time.sleep(1.5)
+    exit(0)
+
 now = datetime.now()
 my_system = platform.uname()
 print("[+] initializing api")
-eauth.time.sleep(0.5)
+time.sleep(0.5)
 print("[+] attached to server")
-eauth.time.sleep(1)
+time.sleep(1)
 os.system('cls')
-os.system("PAUSE")
+eauth.run_pause_command()
 def main_f():
     os.system('cls')
     print("▒█▀▀▀ ░█▀▀█ ▒█░▒█ ▀▀█▀▀ ▒█░▒█ ")
@@ -27,30 +34,34 @@ def main_f():
         os.system('cls')
         username = input("Username: ")
         password = input("Password: ")
-        eauth.signin(username,password)
-        os.system('cls')
-        print(eauth.Loggedmessage)
-        print(" ")
-        print("Username: " + eauth.ins.Username)
-        print("Rank: " + eauth.ins.Rank)
-        print("Create Date: " + eauth.ins.CreateDate)
-        print("Expire Date: " + eauth.ins.ExpireDate)
-        print("Hardware ID: " + eauth.ins.HardwareID)
-        # print("Variable: " + eauth.grabvariable("your variable id here"))
-        eauth.time.sleep(3)
+        if (eauth.login_request(username, password)):
+            os.system('cls')
+            print(eauth.logged_message)
+            print(" ")
+            print("Rank: " + eauth.rank)
+            print("Create Date: " + eauth.register_date)
+            print("Expire Date: " + eauth.expire_date)
+            print("Hardware ID: " + eauth.user_hwid)
+        else:
+            print(eauth.error_message)
+        time.sleep(3)
         main_f()
     elif value == "2":
         os.system('cls')
         username = input("Username: ")
         password = input("Password: ")
         invite = input("License Key: ")
-        eauth.signup(username,password,invite)
-        eauth.time.sleep(1.5)
+        if (eauth.register_request(username, password, invite)):
+            os.system('cls')
+            print(eauth.registered_message)
+        else:
+            print(eauth.error_message)
+        time.sleep(1.5)
         main_f()
     else:
         os.system('cls')
         print("Invalid input!")
-        eauth.time.sleep(1)
+        time.sleep(1)
         main_f()
 main_f()
-os.system("PAUSE")
+eauth.run_pause_command()
