@@ -104,6 +104,7 @@ def init_request():
         'sort': 'init',
         'appkey': application_key,
         'acckey': account_key,
+        'hwid': user_hwid,
         'version': application_version
     }
 
