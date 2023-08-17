@@ -24,7 +24,7 @@ used_session_message = "Why did the computer go to therapy? Because it had a cas
 overcrowded_session_message = "Session limit exceeded. Please re-launch the app!"
 expired_session_message = "Your session has timed out. Please re-launch the app!"
 invalid_user_message = "Incorrect login credentials!"
-banned_hwid_message = "Access denied!"
+banned_user_message = "Access denied!"
 incorrect_hwid_message = "Hardware ID mismatch. Please try again with the correct device!"
 expired_user_message = "Your subscription has ended. Please renew to continue using our service!"
 used_name_message = "Username already taken. Please choose a different username!"
@@ -190,8 +190,8 @@ def login_request(username, password):
         raise_error(expired_session_message)
     elif (message == 'account_unavailable'):
         raise_error(invalid_user_message)
-    elif (message == 'hwid_is_banned'):
-        raise_error(banned_hwid_message)
+    elif (message == 'user_is_banned'):
+        raise_error(banned_user_message)
     elif (message == 'hwid_incorrect'):
         raise_error(incorrect_hwid_message)
     elif (message == 'subscription_expired'):
@@ -245,8 +245,8 @@ def register_request(username, password, key):
         raise_error(used_name_message)
     elif (message == 'key_unavailable'):
         raise_error(invalid_key_message)
-    elif (message == 'hwid_is_banned'):
-        raise_error(banned_hwid_message)
+    elif (message == 'user_is_banned'):
+        raise_error(banned_user_message)
     elif (message == 'maximum_users_reached'):
         raise_error(upgrade_your_eauth_message)
 
