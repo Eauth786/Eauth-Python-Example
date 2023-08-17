@@ -138,6 +138,8 @@ def init_request():
         raise_error(outdated_version_message)
     elif (message == 'maximum_sessions_reached'):
         raise_error(busy_sessions_message)
+    elif (message == 'user_is_banned'):
+        raise_error(banned_user_message)
     elif (message == 'init_paused'):
         raise_error(data['paused_message'])
 
