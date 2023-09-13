@@ -6,6 +6,7 @@ import os
 import datetime
 import subprocess
 import webbrowser
+import sys
 
 # Required configuration
 account_key = "" # Your account key goes here
@@ -85,7 +86,7 @@ def run_request(params):
     if (message == "init_success" or message == "login_success" or message == "register_success" or message == "var_grab_success"):
         auth_header = response.headers.get('Signature')
         if (auth_header != generate_auth_token(response.text, application_ID)):
-            exit(0)
+            sys.exit(0)
    
     return response.text
 
