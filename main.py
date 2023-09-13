@@ -3,12 +3,13 @@ import eauth
 from datetime import datetime
 import platform
 import time
+import sys
 
 # Init request
 if (not eauth.init_request()):
     print(eauth.error_message)
     time.sleep(1.5)
-    exit(0)
+    sys.exit(0)
 
 now = datetime.now()
 my_system = platform.uname()
