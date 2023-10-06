@@ -149,7 +149,7 @@ def init_request():
 
 # Eauth login request
 def login_request(username, password):
-    global login, rank, register, expire_date, hwid, error_message
+    global login, rank, register_date, expire_date, hwid, error_message
 
     if (login):
         return login
@@ -175,7 +175,7 @@ def login_request(username, password):
     if (message == 'login_success'):
         login = True
         rank = data['rank']
-        register = data['register_date']
+        register_date = data['register_date']
         expire_date = data['expire_date']
         hwid = data['hwid']
     elif (message == 'invalid_account_key'):
